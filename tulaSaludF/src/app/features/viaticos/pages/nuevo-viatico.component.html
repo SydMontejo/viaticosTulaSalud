@@ -1,0 +1,257 @@
+<!-- <div class="max-w-6xl mx-auto p-6 bg-white shadow-md rounded-xl"> -->
+  <!-- Título -->
+  <!-- <h1 class="text-2xl font-bold mb-6 text-center"> -->
+    <!-- Liquidación de Viáticos -->
+  <!-- </h1> -->
+   <div class="max-w-6xl mx-auto p-6 bg-white shadow-md rounded-xl">
+  <!-- Encabezado con logo y resumen -->
+  <div class="flex justify-between items-center mb-6">
+    <!-- Logo de la empresa -->
+    <div class="flex items-center space-x-4">
+      <img src="/tulaSaludF/src/app/assets/logo.png" alt="Logo Empresa" width="100" />
+      <h1 class="text-2xl font-bold">Liquidación de Viáticos</h1>
+    </div>
+    <div *ngIf="numeroCasoGenerado" class="mt-4 bg-green-100 text-green-700 p-3 rounded-lg shadow">
+  <strong>✅ Número de caso generado:</strong> {{ numeroCasoGenerado }}
+</div>
+
+
+    <!-- Resumen en datagrid -->
+    <div class="w-96 bg-gray-50 p-4 rounded-lg shadow">
+      <h2 class="font-semibold mb-2">Resumen de Gastos</h2>
+      <table class="w-full text-sm">
+        <thead class="border-b">
+          <tr>
+            <th class="text-left">Producto</th>
+            <th class="text-left">Resultado</th>
+            <th class="text-right">Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- <tr *ngFor="let item of getResumenPorProductoResultado()">
+            <td>{{ item.producto }}</td>
+            <td>{{ item.resultado }}</td>
+            <td class="text-right">{{ item.total | currency:'GTQ':'symbol' }}</td>
+          </tr> -->
+        </tbody>
+        <tfoot class="border-t font-bold">
+          <tr>
+            <td colspan="2" class="text-right">Gran Total:</td>
+            <td class="text-right">{{ getGranTotal() | currency:'GTQ':'symbol' }}</td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+
+  <form [formGroup]="viaticoForm" (ngSubmit)="agregarGasto()">
+    <!-- Encabezado fijo -->
+    <div class="mb-6">
+      <p class="text-lg font-semibold">Recibí de: ASOCIACION TULA SALUD, ONG</p>
+      <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+        
+      <div>
+       <label class="block font-medium">Buscar Empleado</label>
+<select
+  formControlName="cuiTrabajador"
+  (change)="seleccionarEmpleado(viaticoForm.get('cuiTrabajador')?.value)"
+  class="border rounded-lg p-2 w-full"
+>
+  <option value="">-- Seleccione empleado --</option>
+  <option *ngFor="let e of empleados" [value]="e.cui">
+    {{ e.cui }} - {{ e.nombre }}
+  </option>
+</select>
+
+      </div>
+    
+    
+    </div>
+      <div class="flex gap-4 items-center mt-2">
+        <label class="font-medium">La cantidad de:</label>
+        <input
+          type="text"
+          formControlName="cantidadLetra"
+          placeholder="Cantidad en letras"
+          class="border rounded-lg p-2 flex-1"
+        />
+        
+      </div>
+    </div>
+
+    <!-- Sección de datos generales -->
+    <div class="grid grid-cols-2 gap-4 mb-6">
+      <div>
+        <label class="block font-medium">Fecha</label>
+        <input type="date" formControlName="fecha" class="border rounded-lg p-2 w-full" />
+      </div>
+      <div>
+        <label class="block font-medium">Producto</label>
+        <select formControlName="producto" class="border rounded-lg p-2 w-full">
+          <option value="" disabled>-- Seleccione producto --</option>
+          <option *ngFor="let p of productos" [value]="p">{{ p }}</option>
+        </select>
+      </div>
+      <div>
+        <label class="block font-medium">Resultado</label>
+        <input type="text" formControlName="resultado" class="border rounded-lg p-2 w-full" />
+      </div>
+      <div>
+        <label class="block font-medium">Destino Comisión</label>
+        <select formControlName="destino" class="border rounded-lg p-2 w-full">
+          <option value="" disabled>-- Seleccione municipio --</option>
+          <option *ngFor="let m of municipios" [value]="m">{{ m }}</option>
+        </select>
+      </div>
+      <div>
+        <label class="block font-medium">Motivo Comisión</label>
+        <input type="text" formControlName="motivo" class="border rounded-lg p-2 w-full" />
+      </div>
+      
+    </div>
+
+    <!-- Detalle de gastos -->
+    <h2 class="text-xl font-semibold mb-3">Detalles de Gastos</h2>
+    <div class="grid grid-cols-3 md:grid-cols-6 gap-4 mb-6">
+      <div>
+        <label class="block">Desayuno</label>
+        <input type="number" formControlName="desayuno" step="0.01" class="border rounded-lg p-2 w-full" />
+      </div>
+      <div>
+        <label class="block">Almuerzo</label>
+        <input type="number" formControlName="almuerzo" step="0.01" class="border rounded-lg p-2 w-full" />
+      </div>
+      <div>
+        <label class="block">Cena</label>
+        <input type="number" formControlName="cena" step="0.01" class="border rounded-lg p-2 w-full" />
+      </div>
+      <div>
+        <label class="block">Hospedaje</label>
+        <input type="number" formControlName="hospedaje" step="0.01" class="border rounded-lg p-2 w-full" />
+      </div>
+      <div>
+        <label class="block">Parqueo</label>
+        <input type="number" formControlName="parqueo" step="0.01" class="border rounded-lg p-2 w-full" />
+      </div>
+      <div>
+        <label class="block">Transporte</label>
+        <input type="number" formControlName="transporte" step="0.01" class="border rounded-lg p-2 w-full" />
+      </div>
+    </div>
+
+    <!-- Total -->
+    <div class="mb-6">
+      <label class="font-medium">Total:</label>
+      <input type="number" formControlName="total" class="border rounded-lg p-2 w-40 ml-2 bg-gray-100" [disabled]="true" />
+    </div>
+
+    <!-- Botón agregar -->
+    <!-- Botón dinámico -->
+<button
+  type="submit"
+  class="bg-blue-600 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-700"
+>
+  {{ editIndex !== null ? 'Actualizar gasto' : 'Agregar gasto' }}
+</button>
+
+<!-- Botón cancelar edición -->
+<button
+  *ngIf="editIndex !== null"
+  type="button"
+  (click)="editIndex = null"
+  class="bg-gray-500 text-white px-4 py-2 rounded-lg shadow hover:bg-gray-600 ml-2"
+>
+  Cancelar
+</button>
+
+  </form>
+
+  <!-- Tabla dinámica -->
+  <div *ngIf="gastos.length > 0" class="mt-8 overflow-x-auto">
+    <h2 class="text-xl font-semibold mb-4">Lista de Gastos</h2>
+    <table class="w-full border border-gray-300 text-sm">
+      <thead class="bg-gray-100">
+        <tr>
+          <th class="border p-2">Fecha</th>
+          <th class="border p-2">Resultado</th>
+          <th class="border p-2">Producto</th>
+          <th class="border p-2">Motivo</th>
+          <th class="border p-2">Destino</th>
+          <th class="border p-2">Desayuno</th>
+          <th class="border p-2">Almuerzo</th>
+          <th class="border p-2">Cena</th>
+          <th class="border p-2">Hospedaje</th>
+          <th class="border p-2">Parqueo</th>
+          <th class="border p-2">Transporte</th>
+          <th class="border p-2 font-bold">Total</th>
+          <th class="border p-2">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let g of gastos; let i = index" class="text-center">
+          <td class="border p-2">{{ g.fecha }}</td>
+          <td class="border p-2">{{ g.resultado }}</td>
+          <td class="border p-2">{{ g.producto }}</td>
+          <td class="border p-2">{{ g.motivo }}</td>
+          <td class="border p-2">{{ g.destino }}</td>
+          <td class="border p-2">{{ g.desayuno | currency:'GTQ':'symbol' }}</td>
+          <td class="border p-2">{{ g.almuerzo | currency:'GTQ':'symbol' }}</td>
+          <td class="border p-2">{{ g.cena | currency:'GTQ':'symbol' }}</td>
+          <td class="border p-2">{{ g.hospedaje | currency:'GTQ':'symbol' }}</td>
+          <td class="border p-2">{{ g.parqueo | currency:'GTQ':'symbol' }}</td>
+          <td class="border p-2">{{ g.transporte | currency:'GTQ':'symbol' }}</td>
+          <td class="border p-2 font-semibold">{{ g.total | currency:'GTQ':'symbol' }}</td>
+          <td class="border p-2">
+            <button
+              (click)="editarGasto(i)"
+              class="bg-yellow-500 hover:bg-yellow-600 text-white px-2 py-1 rounded"
+            >
+              Editar
+            </button>
+            <button
+              (click)="eliminarGasto(i)"
+              class="bg-red-500 hover:bg-red-600 text-white px-2 py-1 rounded"
+            >
+              Eliminar
+            </button>
+          </td>
+
+        </tr>
+      </tbody>
+      <tfoot class="bg-gray-200 font-bold text-center">
+  <tr>
+    <td colspan="5" class="border p-2 text-right">Totales:</td>
+    <td class="border p-2">{{ getTotalColumna('desayuno') | currency:'GTQ':'symbol' }}</td>
+    <td class="border p-2">{{ getTotalColumna('almuerzo') | currency:'GTQ':'symbol' }}</td>
+    <td class="border p-2">{{ getTotalColumna('cena') | currency:'GTQ':'symbol' }}</td>
+    <td class="border p-2">{{ getTotalColumna('hospedaje') | currency:'GTQ':'symbol' }}</td>
+    <td class="border p-2">{{ getTotalColumna('parqueo') | currency:'GTQ':'symbol' }}</td>
+    <td class="border p-2">{{ getTotalColumna('transporte') | currency:'GTQ':'symbol' }}</td>
+    <td class="border p-2 text-green-700">{{ getGranTotal() | currency:'GTQ':'symbol' }}</td>
+    <td class="border p-2"></td>
+  </tr>
+</tfoot>
+
+    </table>
+   
+  <!-- Botón Imprimir PDF -->
+  <div class="mt-6">
+    <button 
+      class="bg-green-600 text-white px-4 py-2 rounded-lg shadow hover:bg-green-700">
+      Imprimir PDF
+    </button>
+<!-- Botón Guardar Viático -->
+<div class="mt-6 flex justify-end">
+  <button 
+    type="button"
+    (click)="guardarViatico()"
+    class="bg-green-600 text-white px-6 py-3 rounded-lg shadow hover:bg-green-700 font-semibold"
+    [disabled]="gastos.length === 0">
+    💾 Guardar Viático
+  </button>
+</div>
+
+  </div>
+  </div>
+</div>
+

@@ -1,0 +1,84 @@
+<div class="p-6 bg-white rounded shadow">
+  <h1 class="text-xl font-bold mb-4">Dashboard de Viáticos</h1>
+
+  <!-- Filtro por estado -->
+  <div class="mb-4">
+    <label>Estado:</label>
+    <select [(ngModel)]="estadoFiltro" (change)="cambiarEstado(estadoFiltro)">
+      <option value="pendiente">Pendiente</option>
+      <option value="aprobado">Aprobado</option>
+      <option value="rechazado">Rechazado</option>
+    </select>
+  </div>
+
+  <!-- Tabla resumen -->
+  <table class="border w-full mb-6 text-sm text-center">
+    <thead class="bg-gray-200">
+      <tr>
+        <th class="border p-2">Número Caso</th>
+        <th class="border p-2">Trabajador</th>
+        <th class="border p-2">Estado</th>
+        <th class="border p-2">Fecha</th>
+        <th class="border p-2">Desayuno</th>
+        <th class="border p-2">Almuerzo</th>
+        <th class="border p-2">Cena</th>
+        <th class="border p-2">Hospedaje</th>
+        <th class="border p-2">Parqueo</th>
+        <th class="border p-2">Transporte</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let v of viaticos">
+        <td class="border p-2">{{ v.numero_caso }}</td>
+        <td class="border p-2">{{ v.nombre_empleado }}</td>
+        <td class="border p-2">{{ v.estado }}</td>
+        <td class="border p-2">{{ v.fecha_creacion | date:'short' }}</td>
+        <td class="border p-2">{{ getSubtotal(v, 'desayuno') | currency:'GTQ':'symbol' }}</td>
+        <td class="border p-2">{{ getSubtotal(v, 'almuerzo') | currency:'GTQ':'symbol' }}</td>
+        <td class="border p-2">{{ getSubtotal(v, 'cena') | currency:'GTQ':'symbol' }}</td>
+        <td class="border p-2">{{ getSubtotal(v, 'hospedaje') | currency:'GTQ':'symbol' }}</td>
+        <td class="border p-2">{{ getSubtotal(v, 'parqueo') | currency:'GTQ':'symbol' }}</td>
+        <td class="border p-2">{{ getSubtotal(v, 'transporte') | currency:'GTQ':'symbol' }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Gráficas de totales -->
+  <div class="grid grid-cols-3 gap-4">
+    <div class="p-4 bg-gray-50 rounded shadow">
+      <h2 class="font-semibold">Desayuno</h2>
+      <p>{{ totalDesayuno | currency:'GTQ':'symbol' }}</p>
+    </div>
+    <div class="p-4 bg-gray-50 rounded shadow">
+      <h2 class="font-semibold">Almuerzo</h2>
+      <p>{{ totalAlmuerzo | currency:'GTQ':'symbol' }}</p>
+    </div>
+    <div class="p-4 bg-gray-50 rounded shadow">
+      <h2 class="font-semibold">Cena</h2>
+      <p>{{ totalCena | currency:'GTQ':'symbol' }}</p>
+    </div>
+    <div class="p-4 bg-gray-50 rounded shadow">
+      <h2 class="font-semibold">Hospedaje</h2>
+      <p>{{ totalHospedaje | currency:'GTQ':'symbol' }}</p>
+    </div>
+    <div class="p-4 bg-gray-50 rounded shadow">
+      <h2 class="font-semibold">Parqueo</h2>
+      <p>{{ totalParqueo | currency:'GTQ':'symbol' }}</p>
+    </div>
+    <div class="p-4 bg-gray-50 rounded shadow">
+      <h2 class="font-semibold">Transporte</h2>
+      <p>{{ totalTransporte | currency:'GTQ':'symbol' }}</p>
+    </div>
+  </div>
+  <div class="mt-8 bg-white p-6 rounded shadow">
+  <h2 class="text-lg font-semibold mb-4">Distribución de Gastos Totales</h2>
+  <div style="width: 100%; height: 400px;">
+    <canvas baseChart
+      [data]="graficaTotales"
+      [options]="graficaOpciones"
+      [type]="'pie'">
+    </canvas>
+  </div>
+</div>
+
+</div>
