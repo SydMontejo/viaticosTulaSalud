@@ -52,7 +52,7 @@ export class NuevoViaticoComponent {
       total: [{ value: 0, disabled: true }]
     });
 
-    // recalculamos el "total" de campos gasto en el formulario cada vez que cambian importes
+    // recalcula el "total" de campos gasto en el formulario cada vez que cambian importes
     this.viaticoForm.get('desayuno')!.valueChanges.subscribe(() => this.recalcularTotalFormGasto());
     this.viaticoForm.get('almuerzo')!.valueChanges.subscribe(() => this.recalcularTotalFormGasto());
     this.viaticoForm.get('cena')!.valueChanges.subscribe(() => this.recalcularTotalFormGasto());
@@ -67,10 +67,10 @@ export class NuevoViaticoComponent {
     }
   });
 
-    // cargamos empleados desde backend
+    // carga empleados desde backend
     this.cargarEmpleados();
 
-    // si gastos cambian se puede actualizar cantidadNumero / cantidadLetra llamando a actualizarTotalesPrincipales()
+    // si gastos cambian se puede actualizar cantidadNumero / cantidadLetra llamando a actualizarTotalesPrincipales
   }
 
   // recalcula el total de la sección gasto (en el input "total" del form)
@@ -106,7 +106,7 @@ export class NuevoViaticoComponent {
     }
   }
 
-  // VALIDACIÓN: solo validar campos del gasto (no todo el form)
+  // Solo valida campos del gasto (no todo el form)
   agregarGasto() {
     // validar campos del gasto
     const requiredGastoControls = ['fecha', 'resultado', 'producto', 'motivo', 'destino'];
@@ -225,7 +225,7 @@ export class NuevoViaticoComponent {
   const viaticoData: ViaticoRequest = {
     cui: this.viaticoForm.get('cuiTrabajador')?.value,
     nombreTrabajador: this.viaticoForm.get('nombreTrabajador')?.value,
-    nombreJefe: 'Por definir', // puedes añadirlo en tu formulario si deseas
+    nombreJefe: 'Por definir', 
     cantidadLetra,
     cantidadNumero,
     gastos: this.gastos
@@ -237,10 +237,10 @@ export class NuevoViaticoComponent {
       // Mostrar ventana emergente con el número de caso
       alert(`✅ Viático guardado exitosamente.\nNúmero de caso asignado: ${response.numeroCaso}`);
 
-      // También puedes mostrarlo en pantalla:
+      // Mostrarlo en pantalla:
       this.numeroCasoGenerado = response.numeroCaso;
 
-      // Limpiar formulario y gastos
+      // limpiar formulario y gastos
       this.limpiarFormularioCompleto();
     },
     error: (error) => {
