@@ -1,0 +1,105 @@
+<div class="p-6 bg-white rounded shadow">
+  <h2 class="text-xl font-bold mb-4">Gestión de Viáticos</h2>
+
+  <!-- Búsqueda -->
+  <div class="flex mb-4 space-x-2">
+    <input
+      type="text"
+      [(ngModel)]="buscarNumeroCaso"
+      placeholder="Ingrese número de caso"
+      class="border p-2 rounded flex-1"
+    />
+    <button
+      (click)="buscarViaticos()"
+      class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+    >
+      Buscar
+    </button>
+  </div>
+
+  <!-- Resultados -->
+  <div *ngIf="buscado">
+    <div *ngIf="viaticos.length > 0; else noData">
+      <h3 class="font-semibold mb-2">
+        Caso: {{ viaticos[0].numero_caso }} — 
+        Trabajador: {{ viaticos[0].nombre_trabajador }} — 
+        Estado: {{ viaticos[0].estado | titlecase }}
+      </h3>
+
+      <table class="min-w-full border border-gray-300 text-sm">
+        <thead class="bg-gray-100">
+          <tr>
+            <th class="border px-3 py-2">Fecha</th>
+            <th class="border px-3 py-2">Producto</th>
+            <th class="border px-3 py-2">Resultado</th>
+            <th class="border px-3 py-2">Destino</th>
+            <th class="border px-3 py-2">Desayuno</th>
+            <th class="border px-3 py-2">Almuerzo</th>
+            <th class="border px-3 py-2">Cena</th>
+            <th class="border px-3 py-2">Hospedaje</th>
+            <th class="border px-3 py-2">Parqueo</th>
+            <th class="border px-3 py-2">Transporte</th>
+            <th class="border px-3 py-2">Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let v of viaticos">
+            <td class="border px-3 py-2">{{ v.fecha | date }}</td>
+            <td class="border px-3 py-2">{{ v.producto }}</td>
+            <td class="border px-3 py-2">{{ v.resultado }}</td>
+            <td class="border px-3 py-2">{{ v.destino }}</td>
+            <td class="border px-3 py-2 text-right">{{ (v.desayuno || 0) | currency: 'GTQ':'symbol':'1.2-2' }}</td>
+            <td class="border px-3 py-2 text-right">{{ (v.almuerzo || 0) | currency: 'GTQ':'symbol':'1.2-2' }}</td>
+            <td class="border px-3 py-2 text-right">{{ (v.cena || 0) | currency: 'GTQ':'symbol':'1.2-2' }}</td>
+            <td class="border px-3 py-2 text-right">{{ (v.hospedaje || 0) | currency: 'GTQ':'symbol':'1.2-2' }}</td>
+            <td class="border px-3 py-2 text-right">{{ (v.parqueo || 0) | currency: 'GTQ':'symbol':'1.2-2' }}</td>
+            <td class="border px-3 py-2 text-right">{{ (v.transporte || 0) | currency: 'GTQ':'symbol':'1.2-2' }}</td>
+            <td class="border px-3 py-2 text-right font-semibold">{{ (v.total_detalle || 0) | currency: 'GTQ':'symbol':'1.2-2' }}</td>
+          </tr>
+        </tbody>
+        <tfoot class="bg-gray-50 font-bold">
+          <tr>
+            <td colspan="10" class="text-right px-3 py-2">TOTAL GENERAL:</td>
+            <td class="border px-3 py-2 text-right">{{ totalGeneral | currency }}</td>
+          </tr>
+        </tfoot>
+      </table>
+      <div class="mt-6 p-4 border-t border-gray-300">
+  <h4 class="font-semibold mb-2">Actualizar Estado del Viático</h4>
+
+  <div class="flex items-center space-x-4 mb-3">
+    <label for="estado" class="font-medium">Nuevo Estado:</label>
+    <select id="estado" [(ngModel)]="nuevoEstado" class="border rounded p-2">
+      <option value="">Seleccione...</option>
+      <option value="pendiente">Pendiente</option>
+      <option value="aprobado">Aprobado</option>
+      <option value="rechazado">Rechazado</option>
+    </select>
+  </div>
+
+  <div class="flex items-center space-x-4 mb-3">
+    <label for="nombreJefe" class="font-medium">Nombre del Jefe Autorizador:</label>
+    <input
+      id="nombreJefe"
+      [(ngModel)]="nombreJefe"
+      type="text"
+      placeholder="Ingrese nombre del jefe"
+      class="border rounded p-2 flex-1"
+    />
+  </div>
+
+  <button
+    (click)="guardarCambio()"
+    class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
+  >
+    Guardar Cambios
+  </button>
+</div>
+    </div>
+
+    <ng-template #noData>
+      <p class="text-gray-500 mt-4">No se encontraron resultados para este número de caso.</p>
+    </ng-template>
+  </div>
+  
+</div>

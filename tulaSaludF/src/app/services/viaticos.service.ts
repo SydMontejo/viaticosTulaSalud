@@ -32,13 +32,19 @@ export interface ViaticoResponse {
   message: string;
 }
 
+export interface ViaticoPorNumeroCasoResponse {
+  success: boolean;
+  data: any; // aquí puedes crear una interfaz más específica si quieres
+  message?: string;
+}
+
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ViaticosService {
-  private apiUrl = 'http://localhost:3000/api'; 
+  private apiUrl = 'http://localhost:3000/api';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   guardarViatico(viatico: ViaticoRequest): Observable<ViaticoResponse> {
     return this.http.post<ViaticoResponse>(`${this.apiUrl}/viaticos`, viatico);
@@ -48,8 +54,18 @@ export class ViaticosService {
     return this.http.get(`${this.apiUrl}/viaticos/${cui}`);
   }
 
-  obtenerEmpleados(): Observable<{cui: string, nombre: string}[]> {
-  return this.http.get<{cui: string, nombre: string}[]>(`${this.apiUrl}/empleados`);
-}
+  obtenerEmpleados(): Observable<{ cui: string; nombre: string }[]> {
+    return this.http.get<{ cui: string; nombre: string }[]>(`${this.apiUrl}/empleados`);
+  }
 
+  obtenerViaticoPorNumeroCaso(numeroCaso: string): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/viaticos/caso/${numeroCaso}`);
+  }
+
+  actualizarEstado(numeroCaso: string, nuevoEstado: string, nombreJefe: string): Observable<any> {
+    return this.http.put<any>(`${this.apiUrl}/viaticos/estado/${numeroCaso}`, {
+      nuevoEstado,
+      nombreJefe,
+    });
+  }
 }

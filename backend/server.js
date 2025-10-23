@@ -12,6 +12,7 @@ app.use(express.json());
 // Prefijo de las rutas
 app.use('/api/viaticos', viaticosRoutes);
 app.use('/api/empleados', empleadosRoutes);
+app.use('/api/estado', viaticosRoutes);
 // Puerto donde corre el backend
 const PORT = 3000;
 app.listen(PORT, () => {

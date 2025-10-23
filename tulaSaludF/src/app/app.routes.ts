@@ -29,7 +29,13 @@ export const routes: Routes = [
           (c) => c.DashboardComponent
         ),
     },
-      
+    {
+      path: 'gestionar',
+        loadComponent: () =>
+          import('./features/viaticos/pages/gestionar-viaticos.component').then(
+            (c) => c.GestionarViaticosComponent
+        ),
+    },  
     ],
   },
 

@@ -7,6 +7,8 @@ router.post('/', viaticosController.crearViatico);
 
 router.get('/dashboard', viaticosController.obtenerViaticosDashboard);
 //GET
-router.get('/:cui', viaticosController.obtenerViaticosPorCui);
+router.get('/caso/:numeroCaso', viaticosController.obtenerViaticoPorNumeroCaso);
+//PUT - actualiza estado del viatico
+router.put('/estado/:numeroCaso', viaticosController.actualizarEstado);
 
 module.exports = router;
