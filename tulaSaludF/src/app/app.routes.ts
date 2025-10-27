@@ -1,44 +1,48 @@
 import { Routes } from '@angular/router';
 
-
 export const routes: Routes = [
-  // Ruta raíz: carga Home
+  // 🟢 Ruta raíz: tu login
   {
     path: '',
     loadComponent: () =>
-      import('./features/home/home.component').then((c) => c.HomeComponent),
+      import('./pages/login/login.component').then((c) => c.LoginComponent),
   },
-   
-  // Para registro de viáticos
+
+  // 🏠 Home de tu amigo
+  {
+    path: 'home',
+    loadComponent: () =>
+      import('./pages/home/home.component').then((c) => c.HomeComponent),
+  },
+
+  // 📊 Sección de viáticos de tu amigo
   {
     path: 'viaticos',
     children: [
-     
       {
         path: 'nuevo',
-        // Registro de nuevo viatico
         loadComponent: () =>
-          import('./features/viaticos/pages/nuevo-viatico.component').then(
+          import('./pages/viaticos/pages/nuevo-viatico.component').then(
             (c) => c.NuevoViaticoComponent
           ),
       },
-       {
-      path: 'dashboard',  // <-- nueva ruta
-      loadComponent: () =>
-        import('./features/dashboard/dashboard.component').then(
-          (c) => c.DashboardComponent
-        ),
-    },
-    {
-      path: 'gestionar',
+      {
+        path: 'dashboard',
         loadComponent: () =>
-          import('./features/viaticos/pages/gestionar-viaticos.component').then(
+          import('./pages/dashboard/dashboard.component').then(
+            (c) => c.DashboardComponent
+          ),
+      },
+      {
+        path: 'gestionar',
+        loadComponent: () =>
+          import('./pages/viaticos/pages/gestionar-viaticos.component').then(
             (c) => c.GestionarViaticosComponent
-        ),
-    },  
+          ),
+      },
     ],
   },
 
+  // 🚫 Cualquier ruta no válida → login
   { path: '**', redirectTo: '' },
-  
 ];

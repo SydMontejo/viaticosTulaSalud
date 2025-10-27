@@ -1,21 +1,30 @@
-import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterOutlet, Router, NavigationEnd } from '@angular/router';
+import { filter } from 'rxjs/operators';
+
+// 👇 importa tu navbar (ruta según la estructura de tu amigo)
+import { NavbarComponent } from './components/navbar/navbar.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet],
-  template: `
-    <div class="h-screen flex flex-col bg-gray-100">
-      <nav class="p-4 bg-white shadow flex space-x-4">
-        <a routerLink="/" class="text-blue-600 hover:underline">Inicio</a>
-        
-      </nav>
-
-      <main class="flex-1 p-6">
-        <router-outlet></router-outlet>
-      </main>
-    </div>
-  `,
+  imports: [CommonModule, RouterOutlet, NavbarComponent],
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.scss'],
 })
-export class AppComponent {}
+export class AppComponent {
+  mostrarNavbar = false;
+  title = 'tulaSaludF';
+
+  private router = inject(Router);
+
+  constructor() {
+    // 🔹 Muestra navbar en todas las rutas excepto login ('/')
+    this.router.events
+      .pipe(filter((event) => event instanceof NavigationEnd))
+      .subscribe((event: any) => {
+        this.mostrarNavbar = event.urlAfterRedirects !== '/';
+      });
+  }
+}

@@ -1,4 +1,17 @@
-/* You can add global styles to this file, and also import other style files */
+// Tailwind CSS base styles
+//    Estas directivas son necesarias para que Tailwind funcione correctamente
+//    - base: Estilos base como normalización de estilos (reset)
+//    - components: Componentes predefinidos como formularios, botones, etc.
+//    - utilities: Utilidades de Tailwind como margen, padding, colores, etc.
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .animate-fadeIn {
+    animation: fadeIn 0.6s ease-out forwards;
+  }
+  

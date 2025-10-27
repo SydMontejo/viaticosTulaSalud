@@ -1,0 +1,89 @@
+<header
+  class="flex flex-col shadow-md py-4 px-4 sm:px-10 bg-white tracking-wide sticky top-0 z-20 border-b border-gray-200"
+>
+  <div class="flex flex-wrap items-center justify-between gap-5 w-full">
+    <!-- LOGO -->
+    <div class="flex items-center space-x-2">
+      <img
+        src="/assets/images/logo.svg"
+        alt="logo"
+        class="w-10 h-10 object-contain"
+      />
+      <span class="text-xl font-bold text-[#FF9933]">Proyecto EPSUM</span>
+    </div>
+
+    <!-- MENU PRINCIPAL (Desktop) -->
+    <nav class="hidden lg:flex space-x-8 font-medium">
+      <a routerLink="/home" class="hover:text-[#FF9933] text-gray-700 transition">Página Principal</a>
+      <a routerLink="/area-personal" class="hover:text-[#FF9933] text-gray-700 transition">Área personal</a>
+      <a routerLink="/cursos" class="hover:text-[#FF9933] text-gray-700 transition">Mis cursos</a>
+      <a routerLink="/biblioteca" class="hover:text-[#FF9933] text-gray-700 transition">E-Biblioteca</a>
+    </nav>
+
+    <!-- PERFIL DE USUARIO -->
+    <div class="relative flex items-center space-x-4">
+      <!-- Íconos -->
+      <div class="hidden sm:flex items-center space-x-3">
+        <button class="relative text-gray-500 hover:text-[#FF9933]">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14V10a6 6 0 10-12 0v4c0 .386-.149.735-.405 1.005L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+          </svg>
+          <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">2</span>
+        </button>
+
+        <button class="text-gray-500 hover:text-[#FF9933]">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M7 8h10M7 12h4m1 8a9 9 0 100-18 9 9 0 000 18z" />
+          </svg>
+        </button>
+      </div>
+
+      <!-- FOTO DEL USUARIO -->
+      <button (click)="toggleUserMenu()" class="flex items-center focus:outline-none">
+        <img [src]="user?.picture" alt="Perfil" class="w-9 h-9 rounded-full border-2 border-[#FF9933]" />
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 ml-1 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+        </svg>
+      </button>
+
+      <!-- MENÚ DESPLEGABLE -->
+      <div *ngIf="menuOpen"
+        class="user-menu absolute right-0 top-12 bg-white border border-gray-200 rounded-lg shadow-lg w-48 py-2 z-50">
+        <a routerLink="/perfil" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Perfil</a>
+        <a routerLink="/configuracion" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Preferencias</a>
+        <button (click)="logout()"
+          class="w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100 font-semibold text-red-500">
+          Cerrar sesión
+        </button>
+      </div>
+
+      <!-- BOTÓN HAMBURGUESA (Mobile) -->
+      <button class="lg:hidden text-gray-700 focus:outline-none" (click)="toggleMobileMenu()">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- MENÚ MÓVIL -->
+  <div
+    *ngIf="mobileOpen"
+    class="mobile-menu lg:hidden fixed top-[70px] left-0 w-full bg-white border-t border-gray-200 shadow-md z-40"
+  >
+    <nav class="flex flex-col space-y-3 p-5 text-gray-700 font-medium">
+      <a routerLink="/home" class="hover:text-[#FF9933]">Página Principal</a>
+      <a routerLink="/area-personal" class="hover:text-[#FF9933]">Área personal</a>
+      <a routerLink="/cursos" class="hover:text-[#FF9933]">Mis cursos</a>
+      <a routerLink="/biblioteca" class="hover:text-[#FF9933]">E-Biblioteca</a>
+      <hr class="border-gray-300" />
+      <a routerLink="/perfil" class="hover:text-[#FF9933]">Perfil</a>
+      <button (click)="logout()" class="text-left hover:text-[#FF9933]">
+        Cerrar sesión
+      </button>
+    </nav>
+  </div>
+</header>
