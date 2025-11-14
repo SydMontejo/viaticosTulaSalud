@@ -34,7 +34,7 @@ export interface ViaticoResponse {
 
 export interface ViaticoPorNumeroCasoResponse {
   success: boolean;
-  data: any; // aquí puedes crear una interfaz más específica si quieres
+  data: any; 
   message?: string;
 }
 
